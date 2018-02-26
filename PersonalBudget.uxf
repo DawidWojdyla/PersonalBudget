@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>30</y>
+      <w>210</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>User
+--
+-userID: int
+-login: string
+-password: string
+-name: string
+-surname: string
+--
++setLogin: void
++setPassword: void
++setName: void
++setSurname: void
++getUserId: int
++getLogin: string
++getPassword: string
++getName: string
++getSurname: string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>30</y>
+      <w>190</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>Expense
+--
+-expenseId: int
+-userId: int
+-date: string
+-item: string
+-amount: double
+--
++setExpenseId: void
++setUserId: void
++setDate: void
++setItem: void
++setAmount: void
++getExpenseId: int
++getDate: string
++getItem: string
++getAmount: double</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>240</x>
+      <y>30</y>
+      <w>190</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>Income
+--
+-incomeID: int
+-userID: int
+-date: string
+-item: string
+-amount: double
+--
++setIncomeID: void
++setUserId: void
++setDate: void
++setItem: void
++setAmount: void
++getIncomeId: int
++getDate: string
++getItem: string
++getAmount: double</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>300</y>
+      <w>250</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>PersonalBudget
+--
+-vector &lt;Income&gt; incomes
+-vector &lt;Expense&gt; expenses
+-currentUserID: int
+--
++setCurrentUserID: void
++getCurrentUserID: int
++addIncome: void
++addExpese: void
++showBalanceOfCurrentMonth: void
++showBalanceOfPreviousMonth: void
++showBalanceOfSelectedPeriod: void
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>30</y>
+      <w>190</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>Users
+--
+-currentUserID: int
+-usersVector: vector &lt;User&gt;
+-usersFileName: string
+-CMarkup usersXML
+--
++registering: void
++login: void
++logOff: void
++getCurrentUserID: int
++changePassword: void
+-loadUsersFromXMLObjectToVector: void
+-addNewUser: void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
