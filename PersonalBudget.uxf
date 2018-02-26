@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="13.2">
-  <zoom_level>10</zoom_level>
+  <zoom_level>6</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>30</y>
-      <w>210</w>
-      <h>260</h>
+      <x>168</x>
+      <y>378</y>
+      <w>126</w>
+      <h>156</h>
     </coordinates>
     <panel_attributes>User
 --
@@ -31,10 +31,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>30</y>
-      <w>190</w>
-      <h>260</h>
+      <x>372</x>
+      <y>378</y>
+      <w>114</w>
+      <h>156</h>
     </coordinates>
     <panel_attributes>Expense
 --
@@ -58,10 +58,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>240</x>
-      <y>30</y>
-      <w>190</w>
-      <h>260</h>
+      <x>798</x>
+      <y>378</y>
+      <w>114</w>
+      <h>156</h>
     </coordinates>
     <panel_attributes>Income
 --
@@ -85,10 +85,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>300</y>
-      <w>250</w>
-      <h>260</h>
+      <x>564</x>
+      <y>60</y>
+      <w>150</w>
+      <h>156</h>
     </coordinates>
     <panel_attributes>PersonalBudget
 --
@@ -111,10 +111,36 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>640</x>
-      <y>30</y>
-      <w>190</w>
-      <h>260</h>
+      <x>582</x>
+      <y>378</y>
+      <w>114</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>Date
+--
+-currentDate: string
+-currentDay: int
+-currentMonth: int
+-currentYear: int
+--
++setCurrentDate: void
++setCurrentDay: void
++setCurrentYear: void
++setCurrentMonth: void
++getCurrentDate: string
++getCurrentDay: int
++getCurrentYear: int
++getCurrentMonth: int
+-intToString: string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>60</y>
+      <w>114</w>
+      <h>156</h>
     </coordinates>
     <panel_attributes>Users
 --
@@ -132,5 +158,71 @@
 -addNewUser: void
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>222</x>
+      <y>210</y>
+      <w>18</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>210</y>
+      <w>216</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>340.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>642</x>
+      <y>210</y>
+      <w>234</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;370.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>288</x>
+      <y>54</y>
+      <w>288</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;460.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>372</y>
+      <w>114</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>372</y>
+      <w>120</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
   </element>
 </diagram>
