@@ -1,3 +1,5 @@
+#ifndef Users_h
+#define Users_h
 #include <iostream>
 #include "UsersFile.h"
 
@@ -14,6 +16,6 @@ public:
     bool logOff();
     int getCurrentUserID();
     void changePassword();
-private:
-    void addNewUser(string name, string surname, string username, string password);
 };
+
+#endif

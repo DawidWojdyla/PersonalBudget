@@ -6,11 +6,19 @@ using namespace std;
 
 User::User()
 {
-    userID = 0;
-    username = "";
-    password = "";
-    name = "";
-    surname = "";
+    userID      = 0;
+    username    = "";
+    password    = "";
+    name        = "";
+    surname     = "";
+}
+User::User(int userID, string username, string password, string name, string surname)
+{
+    this->userID    = userID;
+    this->username  = username;
+    this->password  = password;
+    this->name      = name;
+    this->surname   = surname;
 }
 void User::setUserID(int userID)
 {

@@ -1,18 +1,18 @@
 #include <iostream>
 #include "UsersFile.h"
-#include "Markup.h"
 
 using namespace std;
-
 
 UsersFile::UsersFile()
 {
     usersFileName = "users.xml";
     usersXML.Load(usersFileName);
     loadUsersToVector();
+    currentUserIterator = usersVector.begin();
 }
 void UsersFile::addNewUser(User &newUser)
 {
+    usersVector.push_back(newUser);
     usersXML.AddElem("user");
     usersXML.IntoElem();
     usersXML.AddElem("userID", newUser.getUserID());
@@ -22,14 +22,23 @@ void UsersFile::addNewUser(User &newUser)
     usersXML.AddElem("surname", newUser.getSurname());
     usersXML.OutOfElem();
     usersXML.Save(usersFileName);
+
 }
-void UsersFile::changePassword(string newPassword, int userID)
+int UsersFile::nextUserID()
 {
+    if(usersVector.empty())
+        return 1;
+    else return usersVector.back().getUserID() + 1;
+}
+void UsersFile::changePassword(string newPassword)
+{
+    currentUserIterator->setPassword(newPassword);
+
     usersXML.ResetPos();
     while(usersXML.FindElem("user"))
     {
         usersXML.FindChildElem("userID");
-        if(usersXML.GetChildData() == typeConversion.intToString(userID))
+        if(atoi(usersXML.GetChildData().c_str()) == currentUserIterator->getUserID())
         {
             if(usersXML.FindChildElem("password"))
             {
@@ -40,6 +49,7 @@ void UsersFile::changePassword(string newPassword, int userID)
         }
     }
 }
+
 void UsersFile::loadUsersToVector()
 {
     User newUser;
@@ -59,4 +69,17 @@ void UsersFile::loadUsersToVector()
         usersXML.OutOfElem();
         usersVector.push_back(newUser);
     }
+}
+
+bool UsersFile::checkUsername(string username)
+{
+    for(currentUserIterator = usersVector.begin(); currentUserIterator != usersVector.end(); ++currentUserIterator)
+        if(currentUserIterator->getUsername() == username)
+            return true;
+    return false;
+}
+
+void UsersFile::resetCurrentUserIterator()
+{
+    currentUserIterator = usersVector.begin();
 }

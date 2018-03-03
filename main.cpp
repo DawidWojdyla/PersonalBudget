@@ -1,14 +1,15 @@
 #include <iostream>
 #include <windows.h>
-//#include "User.h"
 #include "Users.h"
-//#include "Markup.h"
+#include "HomeBudget.h"
+
 
 using namespace std;
 
 int main()
 {
     Users users;
+    HomeBudget homeBudget;
 
     char choice;
 
@@ -28,7 +29,8 @@ int main()
             switch(choice)
             {
             case '1':
-                users.login();
+                if(users.login())
+                homeBudget.setUserID(users.getCurrentUserID());
                 break;
             case '2':
                 users.registration();
@@ -59,10 +61,10 @@ int main()
             cin.sync();
             switch(choice)
             {
-            case '1':
+            case '1': homeBudget.addNewIncome();
 
                 break;
-            case '2':
+            case '2': homeBudget.addNewExpense();
 
                 break;
             case '3':
@@ -78,7 +80,8 @@ int main()
                 users.changePassword();
                 break;
             case '7':
-                 users.logOff();
+                 if(users.logOff())
+                    homeBudget.setUserID(0);
                 break;
             case '8':
                 exit(0);
