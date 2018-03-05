@@ -24,7 +24,7 @@ void Expenses::addNewExpense()
         switch(choice)
         {
         case '1':
-            dateToSet = dateOperator.getTodaysDate();
+            dateToSet = dateOperator.getTodaysStringDate();
             addNewExpense(dateToSet);
             choice = 3;
             break;
@@ -51,7 +51,8 @@ void Expenses::addNewExpense()
             break;
         case '3':
             break;
-        default: cout << "Please press 1-3" << endl;
+        default:
+            cout << "Please press 1-3" << endl;
         }
     }
     while(choice == '3');
@@ -73,14 +74,14 @@ void Expenses::addNewExpense(string correctDate)
     cin >> amount;
 
     while(!amountOperator.checkAmount(amount))
-        {
+    {
         cout << "The amount is incorrect, please enter the amount again" << endl;
         cout << "You can only use numbers and one dot (or one comma) " << endl;
         cin >> amount;
-        }
+    }
     newExpense.setAmount(atof(amount.c_str()));
 
-   if(expensesFile.expensesVector.size() == 0)
+    if(expensesFile.expensesVector.size() == 0)
         newExpense.setExpenseID(1);
     else
         newExpense.setExpenseID(expensesFile.expensesVector.back().getExpenseID()+1);
@@ -101,4 +102,77 @@ void Expenses::addNewExpense(string correctDate)
 
 }
 
+double Expenses::showExpensesOfCurrentMonth()
+{
+    double totalExpenses = 0;
 
+    if(!expensesFile.expensesVectorSortedByDate)
+        sortExpensesByDate();
+
+    int intDateOfFirstDayOfThisMonth = (dateOperator.todaysIntDate - dateOperator.thisDay) + 1;
+
+    vector <Expense> ::iterator itr, endOfVector = expensesFile.expensesVector.end( );
+    for(itr = expensesFile.expensesVector.begin(); itr != endOfVector; ++itr)
+    {
+        if(itr->getIntDate() >= intDateOfFirstDayOfThisMonth)
+        {
+            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+            totalExpenses += itr->getAmount();
+        }
+    }
+    return totalExpenses;
+}
+
+double Expenses::showExpensesOfPreviousMonth()
+{
+    double totalExpenses = 0;
+
+    if(!expensesFile.expensesVectorSortedByDate)
+        sortExpensesByDate();
+
+    int dateOfTheFirstDayOfPreviousMonth = dateOperator.returnIntDateOfFirstDayOfPreviousMonth();
+    int dateOfTheLastDayOfPreviousMonth = dateOperator.returnIntDateOfTheLastDayOfPreviousMonth();
+
+    vector <Expense> ::iterator itr, endOfVector = expensesFile.expensesVector.end( );
+    for(itr = expensesFile.expensesVector.begin(); itr != endOfVector; ++itr)
+    {
+        if(itr->getIntDate() >= dateOfTheFirstDayOfPreviousMonth && itr->getIntDate() <= dateOfTheLastDayOfPreviousMonth)
+        {
+            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+            totalExpenses += itr->getAmount();
+        }
+    }
+    return totalExpenses;
+}
+
+double Expenses::showExpensesOfSelectedPeriod(string stringDateFrom, string stringDateTo)
+{
+    double totalExpenses = 0;
+
+    if(!expensesFile.expensesVectorSortedByDate)
+        sortExpensesByDate();
+
+    int fromDate = dateOperator.typeConversion.stringDateToInt(stringDateFrom);
+    int toDate = dateOperator.typeConversion.stringDateToInt(stringDateTo);
+
+    vector <Expense> ::iterator itr, endOfVector = expensesFile.expensesVector.end( );
+    for(itr = expensesFile.expensesVector.begin(); itr != endOfVector; ++itr)
+    {
+        if (itr->getIntDate() >= fromDate && itr->getIntDate() <= toDate)
+        {
+            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+            totalExpenses += itr->getAmount();
+        }
+    }
+    return totalExpenses;
+}
+
+
+bool Expenses::sortExpensesByDate()
+{
+    sort( expensesFile.expensesVector.begin(), expensesFile.expensesVector.end( ), [ ](Expense& expense1, Expense& expense2 )
+    {
+        return expense1.getIntDate() < expense2.getIntDate();
+    });
+    expensesFile.expensesVectorSortedByDate = true;
+}

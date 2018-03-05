@@ -67,13 +67,13 @@ int main()
             case '2': homeBudget.addNewExpense();
 
                 break;
-            case '3':
+            case '3': homeBudget.showBalanceOfCurrentMonth();
 
                 break;
-            case '4':
+            case '4': homeBudget.showBalanceOfPreviousMonth();
 
                 break;
-            case '5':
+            case '5': homeBudget.showBalanceOfSelectedPeriod();
 
                 break;
             case '6':

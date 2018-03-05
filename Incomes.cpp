@@ -22,7 +22,7 @@ void Incomes::addNewIncome()
         switch(choice)
         {
         case '1':
-            dateToSet = dateOperator.getTodaysDate();
+            dateToSet = dateOperator.getTodaysStringDate();
             addNewIncome(dateToSet);
             choice = 3;
             break;
@@ -49,7 +49,8 @@ void Incomes::addNewIncome()
             break;
         case '3':
             break;
-        default: cout << "Please press 1-3" << endl;
+        default:
+            cout << "Please press 1-3" << endl;
         }
     }
     while(choice == '3');
@@ -72,14 +73,14 @@ void Incomes::addNewIncome(string correctDate)
     cin >> amount;
 
     while(!amountOperator.checkAmount(amount))
-        {
+    {
         cout << "The amount is incorrect, please enter the amount again" << endl;
         cout << "You can only use numbers and one dot (or one comma) " << endl;
         cin >> amount;
-        }
+    }
     newIncome.setAmount(atof(amount.c_str()));
 
-   if(incomesFile.incomesVector.size() == 0)
+    if(incomesFile.incomesVector.size() == 0)
         newIncome.setIncomeID(1);
     else
         newIncome.setIncomeID(incomesFile.incomesVector.back().getIncomeID()+1);
@@ -95,4 +96,77 @@ void Incomes::addNewIncome(string correctDate)
     }
     else cout << "\nWe return to the main menu without adding income";
     Sleep(1500);
+}
+
+double Incomes::showIncomesOfCurrentMonth()
+{
+    double totalIncome = 0;
+
+    if(!incomesFile.incomesVectorSortedByDate)
+    sortIncomesByDate();
+
+    int intDateOfFirstDayOfThisMonth = (dateOperator.todaysIntDate - dateOperator.thisDay) + 1;
+
+    vector<Income> ::iterator itr, endOfVector = incomesFile.incomesVector.end( );
+    for(itr = incomesFile.incomesVector.begin(); itr != endOfVector; ++itr)
+    {
+        if(itr->getIntDate() >= intDateOfFirstDayOfThisMonth)
+        {
+            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+            totalIncome += itr->getAmount();
+        }
+    }
+    return totalIncome;
+}
+
+double Incomes::showIncomesOfPreviousMonth()
+{
+    double totalIncome = 0;
+
+    if(!incomesFile.incomesVectorSortedByDate)
+    sortIncomesByDate();
+
+    int dateOfTheFirstDayOfPreviousMonth = dateOperator.returnIntDateOfFirstDayOfPreviousMonth();
+    int dateOfTheLastDayOfPreviousMonth = dateOperator.returnIntDateOfTheLastDayOfPreviousMonth();
+
+    vector<Income> ::iterator itr, endOfVector = incomesFile.incomesVector.end();
+    for(itr = incomesFile.incomesVector.begin(); itr != endOfVector; ++itr)
+    {
+        if(itr->getIntDate() >= dateOfTheFirstDayOfPreviousMonth && itr->getIntDate() <= dateOfTheLastDayOfPreviousMonth)
+        {
+            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+            totalIncome += itr->getAmount();
+        }
+    }
+    return totalIncome;
+}
+double Incomes::showIncomesOfSelectedPeriod(string stringDateFrom, string stringDateTo)
+{
+    double totalIncome = 0;
+    int fromDate = dateOperator.typeConversion.stringDateToInt(stringDateFrom);
+    int toDate = dateOperator.typeConversion.stringDateToInt(stringDateTo);
+
+    if(!incomesFile.incomesVectorSortedByDate)
+    sortIncomesByDate();
+
+
+    vector<Income> ::iterator itr, endOfVector = incomesFile.incomesVector.end( );
+    for(itr = incomesFile.incomesVector.begin(); itr != endOfVector; ++itr)
+    {
+        if (itr->getIntDate() >= fromDate && itr->getIntDate() <= toDate)
+        {
+            cout << itr->getStringDate() <<" |" << setw(11)<< fixed <<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+            totalIncome += itr->getAmount();
+        }
+    }
+    return totalIncome;
+}
+
+void Incomes::sortIncomesByDate()
+{
+    sort( incomesFile.incomesVector.begin(), incomesFile.incomesVector.end( ), [ ](Income& income1, Income& income2 )
+    {
+        return income1.getIntDate() < income2.getIntDate();
+    });
+    incomesFile.incomesVectorSortedByDate = true;
 }

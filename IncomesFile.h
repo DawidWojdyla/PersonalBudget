@@ -15,6 +15,7 @@ class IncomesFile
     CMarkup incomesXML;
     string incomesFileName;
     TypeConversion typeConversion;
+    bool incomesVectorSortedByDate;
 
 public:
     IncomesFile();

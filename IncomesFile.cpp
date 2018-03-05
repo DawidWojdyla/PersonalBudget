@@ -5,11 +5,13 @@ IncomesFile::IncomesFile()
     incomesFileName = "incomes.xml";
     incomesXML.Load(incomesFileName);
     loadIncomesToVector();
+    incomesVectorSortedByDate = false;
 }
 
 void IncomesFile::addIncome(Income &income)
 {
     incomesVector.push_back(income);
+    incomesVectorSortedByDate = false;
 
     incomesXML.AddElem("income");
     incomesXML.IntoElem();

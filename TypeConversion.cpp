@@ -11,7 +11,7 @@ string TypeConversion::intToString(int intVariable)
  string TypeConversion::doubleToString(double doubleVariable)
  {
     ostringstream buffer;
-    buffer << fixed <<setprecision(2) << doubleVariable;
+    buffer << fixed << setprecision(2) << doubleVariable;
     string stringVariable = buffer.str();
     return stringVariable;
  }

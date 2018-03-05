@@ -15,6 +15,7 @@ class ExpensesFile
     vector <Expense> expensesVector;
     CMarkup expensesXML;
     TypeConversion typeConversion;
+    bool expensesVectorSortedByDate;
 
 public:
     ExpensesFile();

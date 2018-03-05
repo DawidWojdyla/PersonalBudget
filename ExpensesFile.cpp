@@ -5,11 +5,13 @@ ExpensesFile::ExpensesFile()
     expensesFileName = "expenses.xml";
     expensesXML.Load(expensesFileName);
     loadExpensesToVector();
+    expensesVectorSortedByDate = false;
 }
 
 void ExpensesFile::addExpense(Expense &expense)
 {
     expensesVector.push_back(expense);
+    expensesVectorSortedByDate = false;
 
     expensesXML.AddElem("expense");
     expensesXML.IntoElem();

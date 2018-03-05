@@ -13,6 +13,7 @@ class Income
     string item;
     double amount;
 
+
 public:
     Income();
     void setIncomeID(int i);

@@ -59,4 +59,3 @@ double Income::getAmount()
     return amount;
 }
 
-
