@@ -3,7 +3,6 @@
 HomeBudget::HomeBudget()
 {
 }
-
 void HomeBudget::setUserID(int userID)
 {
     incomes.setUserID(userID);
@@ -20,40 +19,47 @@ void HomeBudget::addNewExpense()
 void HomeBudget::showBalanceOfCurrentMonth()
 {
     system("cls");
-    double totalIncome, totalExpenses;
 
     cout << "Incomes:" << endl;
-    totalIncome = incomes.showIncomesOfCurrentMonth();
+    incomes.showIncomesOfCurrentMonth();
 
     cout <<"\nExpenses:" << endl;
-    totalExpenses = expenses.showExpensesOfCurrentMonth();
+    expenses.showExpensesOfCurrentMonth();
 
-    cout << "\nTotal income:   " << setw(10) << right << totalIncome << endl;
-    cout << "Total expenses: " << setw(10) << right << totalExpenses << endl;
-    cout << "Balance:        " << setw(10) << right << totalIncome - totalExpenses << endl;
-    system("pause");
-}
-void HomeBudget::showBalanceOfPreviousMonth()
-{
-    system("cls");
-    double totalIncome, totalExpenses;
-
-    cout << "Incomes:" << endl;
-    totalIncome = incomes.showIncomesOfPreviousMonth();
-
-    cout <<"\nExpenses:" << endl;
-    totalExpenses = expenses.showExpensesOfPreviousMonth();
+    double totalIncome = incomes.getTotalIncome();
+    double totalExpenses = expenses.getTotalExpenses();
 
     cout << "\nTotal income:   " << setw(10) << right << totalIncome << endl;
     cout << "Total expenses: " << setw(10) << right << totalExpenses << endl;
     cout << "Balance:        " << setw(10) << right << totalIncome - totalExpenses << endl << endl;
+
+    system("pause");
+
+}
+void HomeBudget::showBalanceOfPreviousMonth()
+{
+    system("cls");
+
+    cout << "Incomes:" << endl;
+    incomes.showIncomesOfPreviousMonth();
+
+    cout <<"\nExpenses:" << endl;
+    expenses.showExpensesOfPreviousMonth();
+
+    double totalIncome = incomes.getTotalIncome();
+    double totalExpenses = expenses.getTotalExpenses();
+
+    cout << "\nTotal income:   " << setw(10) << right << totalIncome << endl;
+    cout << "Total expenses: " << setw(10) << right << totalExpenses << endl;
+    cout << "Balance:        " << setw(10) << right << totalIncome - totalExpenses << endl << endl;
+
     system("pause");
 
 }
 void HomeBudget::showBalanceOfSelectedPeriod()
 {
     system("cls");
-    double totalIncome, totalExpenses;
+
     string dateFrom, dateTo;
 
     cout << "Please enter the date you'd like to see the balance from: " << endl;
@@ -80,14 +86,18 @@ void HomeBudget::showBalanceOfSelectedPeriod()
 
     system("cls");
 
-    cout << "Incomes:" << endl;
-    totalIncome = incomes.showIncomesOfSelectedPeriod(dateFrom, dateTo);
+     cout << "Incomes:" << endl;
+    incomes.showIncomesOfSelectedPeriod(dateFrom, dateTo);
 
     cout <<"\nExpenses:" << endl;
-    totalExpenses = expenses.showExpensesOfSelectedPeriod(dateFrom, dateTo);
+    expenses.showExpensesOfSelectedPeriod(dateFrom, dateTo);
+
+    double totalIncome = incomes.getTotalIncome();
+    double totalExpenses = expenses.getTotalExpenses();
 
     cout << "\nTotal income:   " << setw(10) << right << totalIncome << endl;
     cout << "Total expenses: " << setw(10) << right << totalExpenses << endl;
     cout << "Balance:        " << setw(10) << right << totalIncome - totalExpenses << endl << endl;
+
     system("pause");
 }

@@ -1,7 +1,7 @@
 #ifndef Date_h
 #define Date_h
 #include <iostream>
-#include "ExpensesFile.h"
+#include "TypeConversion.h"
 
 using namespace std;
 
@@ -19,13 +19,16 @@ class Date
     void setTodaysIntDate();
     void setTodaysDateComponents();
     void setPreviousMonthDateComponents();
-    bool leapYear(int year);
-    int daysInTheMonth(int month, int year);
+    bool isLeapYear(int year);
+    int getDaysInTheMonth(int month, int year);
     string returnStringDate(int day, int month, int year);
     int returnIntDate(int day, int month, int year);
 public:
     Date();
     string getTodaysStringDate();
+    int getTodaysIntDate();
+    int getThisDay();
+    string returnStringDate(int date);
     bool validateDate(string dateToCheck);
     int returnIntDateOfFirstDayOfPreviousMonth();
     int returnIntDateOfTheLastDayOfPreviousMonth();

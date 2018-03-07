@@ -32,30 +32,26 @@ void Date::setPreviousMonthDateComponents()
         previousMonth = 12;
         yearOfPreviousMonth = thisYear - 1;
     }
-    daysOfPreviousMonth = daysInTheMonth(previousMonth, yearOfPreviousMonth);
+    daysOfPreviousMonth = getDaysInTheMonth(previousMonth, yearOfPreviousMonth);
 }
-
 void Date::setTodaysStringDate()
 {
     todaysStringDate = returnStringDate(thisDay, thisMonth, thisYear);
 }
-
 void Date::setTodaysIntDate()
 {
     todaysIntDate = returnIntDate(thisDay, thisMonth, thisYear);
 }
-
 int Date::returnIntDate(int day, int month, int year)
 {
     return year * 10000 + month * 100 + day;
 }
-
 string Date::returnStringDate(int day, int month, int year)
 {
     string stringDate = "";
-    stringDate += typeConversion.intToString(thisYear) + "-";;
+    stringDate += typeConversion.intToString(thisYear) + "-";
     if(month < 10)
-        todaysStringDate += "0";
+        stringDate += "0";
     stringDate += typeConversion.intToString(thisMonth) + "-";
     if(day < 10)
         stringDate += "0";
@@ -63,13 +59,26 @@ string Date::returnStringDate(int day, int month, int year)
 
     return stringDate;
 }
+string Date::returnStringDate(int date)
+{
+    string stringDate = typeConversion.intToString(date);
+    stringDate.insert(4,"-");
+    stringDate.insert(7,"-");
 
-
+    return stringDate;
+}
 string Date::getTodaysStringDate()
 {
     return todaysStringDate;
 }
-
+int Date::getTodaysIntDate()
+{
+    return todaysIntDate;
+}
+int Date::getThisDay()
+{
+    return thisDay;
+}
 bool Date::validateDate(string dateToCheck)
 {
     if(dateToCheck.length() != 10)
@@ -89,29 +98,27 @@ bool Date::validateDate(string dateToCheck)
         return false;
 
     dayToCheck = atoi(dateToCheck.substr(8,2).c_str());
-    if(dayToCheck < 1 || dayToCheck > daysInTheMonth(monthToCheck, yearToCheck))
+    if(dayToCheck < 1 || dayToCheck > getDaysInTheMonth(monthToCheck, yearToCheck))
         return false;
 
     return true;
 }
-int Date::daysInTheMonth(int month, int year)
+int Date::getDaysInTheMonth(int month, int year)
 {
-    if(leapYear(year) && month == 2)
+    if(isLeapYear(year) && month == 2)
         return 29;
     return daysInEachMonth[month-1];
 }
-bool Date::leapYear(int year)
+bool Date::isLeapYear(int year)
 {
     if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
         return true;
     return false;
 }
-
 int Date::returnIntDateOfFirstDayOfPreviousMonth()
 {
     return returnIntDate(FIRST , previousMonth, yearOfPreviousMonth);
 }
-
 int Date::returnIntDateOfTheLastDayOfPreviousMonth()
 {
     return returnIntDate(daysOfPreviousMonth, previousMonth, yearOfPreviousMonth);

@@ -2,9 +2,11 @@
 #define ExpensesFile_h
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "Markup.h"
 #include "Expense.h"
 #include "TypeConversion.h"
+#include "Date.h"
 
 using namespace std;
 
@@ -15,7 +17,9 @@ class ExpensesFile
     vector <Expense> expensesVector;
     CMarkup expensesXML;
     TypeConversion typeConversion;
-    bool expensesVectorSortedByDate;
+    Date dateOperator;
+    bool isExpensesVectorSortedByDate;
+    void sortExpensesByDate();
 
 public:
     ExpensesFile();

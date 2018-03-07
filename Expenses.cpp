@@ -3,6 +3,7 @@
 Expenses::Expenses()
 {
     userID = 0;
+    totalExpenses = 0;
 }
 
 void Expenses::setUserID(int userID)
@@ -60,8 +61,7 @@ void Expenses::addNewExpense()
 void Expenses::addNewExpense(string correctDate)
 {
     Expense newExpense;
-    newExpense.setStringDate(correctDate);
-    newExpense.setIntDate(dateOperator.typeConversion.stringDateToInt(correctDate));
+    newExpense.setDate(dateOperator.typeConversion.stringDateToInt(correctDate));
 
     string item, amount;
 
@@ -99,80 +99,87 @@ void Expenses::addNewExpense(string correctDate)
     else cout << "\nWe return to the main menu without adding expense";
     Sleep(1500);
 
-
 }
 
-double Expenses::showExpensesOfCurrentMonth()
+double Expenses::getTotalExpenses()
 {
-    double totalExpenses = 0;
+     return totalExpenses;
+}
 
-    if(!expensesFile.expensesVectorSortedByDate)
-        sortExpensesByDate();
+void Expenses::showExpenses(vector <Expense> &expenses)
+{
+    totalExpenses = 0;
 
-    int intDateOfFirstDayOfThisMonth = (dateOperator.todaysIntDate - dateOperator.thisDay) + 1;
+     vector<Expense>::iterator itr, endOfVector = expenses.end();
 
-    vector <Expense> ::iterator itr, endOfVector = expensesFile.expensesVector.end( );
-    for(itr = expensesFile.expensesVector.begin(); itr != endOfVector; ++itr)
-    {
-        if(itr->getIntDate() >= intDateOfFirstDayOfThisMonth)
+     for(itr = expenses.begin(); itr != endOfVector; ++itr)
         {
-            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
-            totalExpenses += itr->getAmount();
+
+        cout << dateOperator.returnStringDate(itr->getDate()) <<" |" << setw(11)<<fixed
+             << setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+
+        totalExpenses += itr->getAmount();
         }
-    }
-    return totalExpenses;
 }
 
-double Expenses::showExpensesOfPreviousMonth()
+vector <Expense> Expenses::returnSelectedExpenses(int dateFrom)
 {
-    double totalExpenses = 0;
+    vector <Expense> selectedExpenses;
+    int length = expensesFile.expensesVector.size();
 
-    if(!expensesFile.expensesVectorSortedByDate)
-        sortExpensesByDate();
+    if(!expensesFile.isExpensesVectorSortedByDate)
+        expensesFile.sortExpensesByDate();
 
-    int dateOfTheFirstDayOfPreviousMonth = dateOperator.returnIntDateOfFirstDayOfPreviousMonth();
-    int dateOfTheLastDayOfPreviousMonth = dateOperator.returnIntDateOfTheLastDayOfPreviousMonth();
+    for(int i = 0; i < length; i++)
+         if(expensesFile.expensesVector[i].getUserID() == userID && expensesFile.expensesVector[i].getDate() >= dateFrom)
+            selectedExpenses.push_back(expensesFile.expensesVector[i]);
 
-    vector <Expense> ::iterator itr, endOfVector = expensesFile.expensesVector.end( );
-    for(itr = expensesFile.expensesVector.begin(); itr != endOfVector; ++itr)
-    {
-        if(itr->getIntDate() >= dateOfTheFirstDayOfPreviousMonth && itr->getIntDate() <= dateOfTheLastDayOfPreviousMonth)
-        {
-            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
-            totalExpenses += itr->getAmount();
-        }
-    }
-    return totalExpenses;
+    return selectedExpenses;
 }
 
-double Expenses::showExpensesOfSelectedPeriod(string stringDateFrom, string stringDateTo)
+vector <Expense> Expenses::returnSelectedExpenses(int dateFrom, int dateTo)
 {
-    double totalExpenses = 0;
+    vector <Expense> selectedExpenses;
+    int length = expensesFile.expensesVector.size();
 
-    if(!expensesFile.expensesVectorSortedByDate)
-        sortExpensesByDate();
+    if(!expensesFile.isExpensesVectorSortedByDate)
+        expensesFile.sortExpensesByDate();
 
-    int fromDate = dateOperator.typeConversion.stringDateToInt(stringDateFrom);
-    int toDate = dateOperator.typeConversion.stringDateToInt(stringDateTo);
+    for(int i = 0; i < length; i++)
+         if(expensesFile.expensesVector[i].getUserID() == userID &&
+            expensesFile.expensesVector[i].getDate() >= dateFrom && expensesFile.expensesVector[i].getDate() <= dateTo)
+            selectedExpenses.push_back(expensesFile.expensesVector[i]);
 
-    vector <Expense> ::iterator itr, endOfVector = expensesFile.expensesVector.end( );
-    for(itr = expensesFile.expensesVector.begin(); itr != endOfVector; ++itr)
-    {
-        if (itr->getIntDate() >= fromDate && itr->getIntDate() <= toDate)
-        {
-            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
-            totalExpenses += itr->getAmount();
-        }
-    }
-    return totalExpenses;
+    return selectedExpenses;
 }
 
-
-bool Expenses::sortExpensesByDate()
+void Expenses::showExpensesOfCurrentMonth()
 {
-    sort( expensesFile.expensesVector.begin(), expensesFile.expensesVector.end( ), [ ](Expense& expense1, Expense& expense2 )
-    {
-        return expense1.getIntDate() < expense2.getIntDate();
-    });
-    expensesFile.expensesVectorSortedByDate = true;
+    int dateOfFirstDayOfThisMonth = (dateOperator.todaysIntDate - dateOperator.thisDay) + 1;
+
+     vector <Expense> currentMonthExpenes = returnSelectedExpenses(dateOfFirstDayOfThisMonth);
+
+    showExpenses(currentMonthExpenes);
 }
+
+void Expenses::showExpensesOfPreviousMonth()
+{
+
+    int dateFrom = dateOperator.returnIntDateOfFirstDayOfPreviousMonth();
+    int dateTo = dateOperator.returnIntDateOfTheLastDayOfPreviousMonth();
+
+    vector <Expense> previousMonthExpenes = returnSelectedExpenses(dateFrom, dateTo);
+
+    showExpenses(previousMonthExpenes);
+}
+
+void Expenses::showExpensesOfSelectedPeriod(string stringDateFrom, string stringDateTo)
+{
+    int dateFrom = dateOperator.typeConversion.stringDateToInt(stringDateFrom);
+    int dateTo = dateOperator.typeConversion.stringDateToInt(stringDateTo);
+
+    vector <Expense> selectedPeriodExpenes = returnSelectedExpenses(dateFrom, dateTo);
+
+    showExpenses(selectedPeriodExpenes);
+}
+

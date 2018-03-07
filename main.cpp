@@ -18,8 +18,8 @@ int main()
         if(users.getCurrentUserID() == 0)
         {
             system("cls");
-            cout << "PERSONAL BUDGET" << endl;
-            cout << "---------------------" << endl;
+            cout << "\tPERSONAL BUDGET" << endl;
+            cout << "------------------------------" << endl;
             cout << "1. Login" << endl;
             cout << "2. Register" << endl;
             cout << "3. Exit" << endl;
@@ -47,7 +47,7 @@ int main()
         {
             system("cls");
             cout << "\tPERSONAL BUDGET" << endl;
-            cout << "---------------------" << endl;
+            cout << "------------------------------" << endl;
             cout << "1. Add new income" << endl;
             cout << "2. Add new expense" << endl;
             cout << "3. Show the balance of the current month" << endl;

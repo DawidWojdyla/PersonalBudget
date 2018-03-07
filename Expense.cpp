@@ -5,8 +5,7 @@ Expense::Expense()
 {
     expenseID   = 0;
     userID      = 0;
-    intDate     = 0;
-    stringDate  = "";
+    date     = 0;
     item        = "";
     amount      = 0;
 }
@@ -18,13 +17,9 @@ void Expense::setUserID(int userID)
 {
     this->userID = userID;
 }
-void Expense::setIntDate(int intDate)
+void Expense::setDate(int date)
 {
-    this->intDate = intDate;
-}
-void Expense::setStringDate(string stringDate)
-{
-    this->stringDate = stringDate;
+    this->date = date;
 }
 void Expense::setItem(string item)
 {
@@ -42,13 +37,9 @@ int Expense::getUserID()
 {
     return userID;
 }
-int Expense::getIntDate()
+int Expense::getDate()
 {
-    return intDate;
-}
-string Expense::getStringDate()
-{
-    return stringDate;
+    return date;
 }
 string Expense::getItem()
 {

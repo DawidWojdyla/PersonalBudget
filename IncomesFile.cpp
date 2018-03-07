@@ -3,26 +3,26 @@
 IncomesFile::IncomesFile()
 {
     incomesFileName = "incomes.xml";
+    isIncomesVectorSortedByDate = false;
     incomesXML.Load(incomesFileName);
     loadIncomesToVector();
-    incomesVectorSortedByDate = false;
+    sortIncomesByDate();
 }
 
 void IncomesFile::addIncome(Income &income)
 {
     incomesVector.push_back(income);
-    incomesVectorSortedByDate = false;
+    isIncomesVectorSortedByDate = false;
 
     incomesXML.AddElem("income");
     incomesXML.IntoElem();
     incomesXML.AddElem("incomeID", income.getIncomeID());
     incomesXML.AddElem("userID", income.getUserID());
-    incomesXML.AddElem("date", income.getStringDate());
+    incomesXML.AddElem("date", income.getDate());
     incomesXML.AddElem("item", income.getItem());
     incomesXML.AddElem("amount", typeConversion.doubleToString(income.getAmount()));
     incomesXML.OutOfElem();
     incomesXML.Save(incomesFileName);
-
 }
 
 void IncomesFile::loadIncomesToVector()
@@ -39,8 +39,7 @@ void IncomesFile::loadIncomesToVector()
         newIncome.setUserID(atoi(incomesXML.GetData().c_str()));
 
         incomesXML.FindElem("date");
-        newIncome.setStringDate(incomesXML.GetData());
-        newIncome.setIntDate(typeConversion.stringDateToInt(newIncome.getStringDate()));
+        newIncome.setDate(typeConversion.stringDateToInt(incomesXML.GetData().c_str()));
 
         incomesXML.FindElem("item");
         newIncome.setItem(incomesXML.GetData());
@@ -52,5 +51,14 @@ void IncomesFile::loadIncomesToVector()
 
         incomesVector.push_back(newIncome);
     }
+}
 
+void IncomesFile::sortIncomesByDate()
+{
+    sort(incomesVector.begin(), incomesVector.end(), [ ](Income& income1, Income& income2)
+    {
+        return income1.getDate() < income2.getDate();
+    });
+
+    isIncomesVectorSortedByDate = true;
 }

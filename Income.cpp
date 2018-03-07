@@ -5,8 +5,7 @@ Income::Income()
 {
     incomeID    = 0;
     userID      = 0;
-    intDate     = 0;
-    stringDate  = "";
+    date     = 0;
     item        = "";
     amount      = 0;
 }
@@ -18,13 +17,9 @@ void Income::setUserID(int userID)
 {
     this->userID = userID;
 }
-void Income::setIntDate(int intDate)
+void Income::setDate(int date)
 {
-    this->intDate = intDate;
-}
-void Income::setStringDate(string stringDate)
-{
-    this->stringDate = stringDate;
+    this->date = date;
 }
 void Income::setItem(string item)
 {
@@ -42,13 +37,9 @@ int Income::getUserID()
 {
     return userID;
 }
-int Income::getIntDate()
+int Income::getDate()
 {
-    return intDate;
-}
-string Income::getStringDate()
-{
-    return stringDate;
+    return date;
 }
 string Income::getItem()
 {

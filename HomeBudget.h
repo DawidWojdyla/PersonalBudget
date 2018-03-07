@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Incomes.h"
 #include "Expenses.h"
-//#include "Date.h"
+
 
 using namespace std;
 
@@ -15,6 +15,7 @@ class HomeBudget
 public:
     HomeBudget();
     void setUserID(int userID);
+    void logOff();
     void addNewIncome();
     void addNewExpense();
     void showBalanceOfCurrentMonth();

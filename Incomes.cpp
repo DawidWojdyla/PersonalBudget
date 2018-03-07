@@ -3,6 +3,7 @@
 Incomes::Incomes()
 {
     userID = 0;
+    totalIncome = 0;
 }
 void Incomes::setUserID(int userID)
 {
@@ -59,8 +60,7 @@ void Incomes::addNewIncome()
 void Incomes::addNewIncome(string correctDate)
 {
     Income newIncome;
-    newIncome.setStringDate(correctDate);
-    newIncome.setIntDate(dateOperator.typeConversion.stringDateToInt(correctDate));
+    newIncome.setDate(dateOperator.typeConversion.stringDateToInt(correctDate));
 
     string item, amount;
 
@@ -98,75 +98,85 @@ void Incomes::addNewIncome(string correctDate)
     Sleep(1500);
 }
 
-double Incomes::showIncomesOfCurrentMonth()
+double Incomes::getTotalIncome()
 {
-    double totalIncome = 0;
+     return totalIncome;
+}
 
-    if(!incomesFile.incomesVectorSortedByDate)
-    sortIncomesByDate();
+void Incomes::showIncomes(vector <Income> &incomes)
+{
+    totalIncome = 0;
 
-    int intDateOfFirstDayOfThisMonth = (dateOperator.todaysIntDate - dateOperator.thisDay) + 1;
+     vector<Income> ::iterator itr, endOfVector = incomes.end();
 
-    vector<Income> ::iterator itr, endOfVector = incomesFile.incomesVector.end( );
-    for(itr = incomesFile.incomesVector.begin(); itr != endOfVector; ++itr)
-    {
-        if(itr->getIntDate() >= intDateOfFirstDayOfThisMonth)
+     for(itr = incomes.begin(); itr != endOfVector; ++itr)
         {
-            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
-            totalIncome += itr->getAmount();
+
+        cout << dateOperator.returnStringDate(itr->getDate()) <<" |" << setw(11)<<fixed
+             << setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
+
+        totalIncome += itr->getAmount();
         }
-    }
-    return totalIncome;
 }
 
-double Incomes::showIncomesOfPreviousMonth()
+vector <Income> Incomes::returnSelectedIncomes(int dateFrom)
 {
-    double totalIncome = 0;
+    vector <Income> selectedIncomes;
+    int length = incomesFile.incomesVector.size();
 
-    if(!incomesFile.incomesVectorSortedByDate)
-    sortIncomesByDate();
+    if(!incomesFile.isIncomesVectorSortedByDate)
+        incomesFile.sortIncomesByDate();
 
-    int dateOfTheFirstDayOfPreviousMonth = dateOperator.returnIntDateOfFirstDayOfPreviousMonth();
-    int dateOfTheLastDayOfPreviousMonth = dateOperator.returnIntDateOfTheLastDayOfPreviousMonth();
+    for(int i = 0; i < length; i++)
+         if(incomesFile.incomesVector[i].getUserID() == userID && incomesFile.incomesVector[i].getDate() >= dateFrom )
+            selectedIncomes.push_back(incomesFile.incomesVector[i]);
 
-    vector<Income> ::iterator itr, endOfVector = incomesFile.incomesVector.end();
-    for(itr = incomesFile.incomesVector.begin(); itr != endOfVector; ++itr)
-    {
-        if(itr->getIntDate() >= dateOfTheFirstDayOfPreviousMonth && itr->getIntDate() <= dateOfTheLastDayOfPreviousMonth)
-        {
-            cout << itr->getStringDate() <<" |" << setw(11)<<fixed<<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
-            totalIncome += itr->getAmount();
-        }
-    }
-    return totalIncome;
+    return selectedIncomes;
 }
-double Incomes::showIncomesOfSelectedPeriod(string stringDateFrom, string stringDateTo)
+
+vector <Income> Incomes::returnSelectedIncomes(int dateFrom, int dateTo)
 {
-    double totalIncome = 0;
-    int fromDate = dateOperator.typeConversion.stringDateToInt(stringDateFrom);
-    int toDate = dateOperator.typeConversion.stringDateToInt(stringDateTo);
+    vector <Income> selectedIncomes;
+    int length = incomesFile.incomesVector.size();
 
-    if(!incomesFile.incomesVectorSortedByDate)
-    sortIncomesByDate();
+    if(!incomesFile.isIncomesVectorSortedByDate)
+        incomesFile.sortIncomesByDate();
 
+    for(int i = 0; i < length; i++)
+         if(incomesFile.incomesVector[i].getUserID() == userID &&
+            incomesFile.incomesVector[i].getDate() >= dateFrom && incomesFile.incomesVector[i].getDate() <= dateTo)
+            selectedIncomes.push_back(incomesFile.incomesVector[i]);
 
-    vector<Income> ::iterator itr, endOfVector = incomesFile.incomesVector.end( );
-    for(itr = incomesFile.incomesVector.begin(); itr != endOfVector; ++itr)
-    {
-        if (itr->getIntDate() >= fromDate && itr->getIntDate() <= toDate)
-        {
-            cout << itr->getStringDate() <<" |" << setw(11)<< fixed <<setprecision(2) << itr->getAmount()<< " | "<< itr->getItem() << endl;
-            totalIncome += itr->getAmount();
-        }
-    }
-    return totalIncome;
+    return selectedIncomes;
 }
 
-void Incomes::sortIncomesByDate()
+void Incomes::showIncomesOfCurrentMonth()
 {
-    sort( incomesFile.incomesVector.begin(), incomesFile.incomesVector.end( ), [ ](Income& income1, Income& income2 )
-    {
-        return income1.getIntDate() < income2.getIntDate();
-    });
-    incomesFile.incomesVectorSortedByDate = true;
+    int dateOfFirstDayOfThisMonth = (dateOperator.todaysIntDate - dateOperator.thisDay) + 1;
+
+    vector <Income> currentMonthIncomes = returnSelectedIncomes(dateOfFirstDayOfThisMonth);
+    showIncomes(currentMonthIncomes);
 }
+
+void Incomes::showIncomesOfPreviousMonth()
+{
+    int dateFrom = dateOperator.returnIntDateOfFirstDayOfPreviousMonth();
+    int dateTo = dateOperator.returnIntDateOfTheLastDayOfPreviousMonth();
+
+    vector <Income> previousMonthIncomes = returnSelectedIncomes(dateFrom, dateTo);
+
+    showIncomes(previousMonthIncomes);
+}
+
+void Incomes::showIncomesOfSelectedPeriod(string stringDateFrom, string stringDateTo)
+{
+    int dateFrom = dateOperator.typeConversion.stringDateToInt(stringDateFrom);
+    int dateTo = dateOperator.typeConversion.stringDateToInt(stringDateTo);
+
+   vector <Income> selectedPeriodIncomes = returnSelectedIncomes(dateFrom, dateTo);
+
+    showIncomes(selectedPeriodIncomes);
+}
+
+
+

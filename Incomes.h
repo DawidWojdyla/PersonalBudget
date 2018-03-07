@@ -2,7 +2,6 @@
 #define Incomes_h
 #include <iostream>
 #include <windows.h>
-#include <algorithm>
 #include "IncomesFile.h"
 #include "Date.h"
 #include "Amount.h"
@@ -16,15 +15,20 @@ class Incomes
     Date dateOperator;
     Amount amountOperator;
     int userID;
+    double totalIncome;
     void addNewIncome(string corectDate);
-    void sortIncomesByDate();
+    vector <Income> returnSelectedIncomes(int dateFrom);
+    vector <Income> returnSelectedIncomes(int dateFrom, int dateTo);
+    void showIncomes(vector <Income> &incomes);
+
 public:
     Incomes();
-    void setUserID(int userID);
     void addNewIncome();
-    double showIncomesOfCurrentMonth();
-    double showIncomesOfPreviousMonth();
-    double showIncomesOfSelectedPeriod(string stringDateFrom, string stringDateTo);
+    void setUserID(int userID);
+    void showIncomesOfCurrentMonth();
+    void showIncomesOfPreviousMonth();
+    void showIncomesOfSelectedPeriod(string stringDateFrom, string stringDateTo);
+    double getTotalIncome();
 };
 
 #endif

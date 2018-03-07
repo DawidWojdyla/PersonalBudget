@@ -2,6 +2,7 @@
 #define IncomesFile_h
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "Income.h"
 #include "Markup.h"
 #include "TypeConversion.h"
@@ -15,7 +16,8 @@ class IncomesFile
     CMarkup incomesXML;
     string incomesFileName;
     TypeConversion typeConversion;
-    bool incomesVectorSortedByDate;
+    bool isIncomesVectorSortedByDate;
+    void sortIncomesByDate();
 
 public:
     IncomesFile();

@@ -3,21 +3,22 @@
 ExpensesFile::ExpensesFile()
 {
     expensesFileName = "expenses.xml";
+    isExpensesVectorSortedByDate = false;
     expensesXML.Load(expensesFileName);
     loadExpensesToVector();
-    expensesVectorSortedByDate = false;
-}
+    sortExpensesByDate();
 
+}
 void ExpensesFile::addExpense(Expense &expense)
 {
     expensesVector.push_back(expense);
-    expensesVectorSortedByDate = false;
+    isExpensesVectorSortedByDate = false;
 
     expensesXML.AddElem("expense");
     expensesXML.IntoElem();
     expensesXML.AddElem("expenseID", expense.getExpenseID());
     expensesXML.AddElem("userID", expense.getUserID());
-    expensesXML.AddElem("date", expense.getStringDate());
+    expensesXML.AddElem("date", dateOperator.returnStringDate(expense.getDate()));
     expensesXML.AddElem("item", expense.getItem());
     expensesXML.AddElem("amount", typeConversion.doubleToString(expense.getAmount()));
     expensesXML.OutOfElem();
@@ -37,8 +38,7 @@ void ExpensesFile::loadExpensesToVector()
         newExpense.setUserID(atoi(expensesXML.GetData().c_str()));
 
         expensesXML.FindElem("date");
-        newExpense.setStringDate(expensesXML.GetData());
-        newExpense.setIntDate(typeConversion.stringDateToInt(expensesXML.GetData()));
+        newExpense.setDate(typeConversion.stringDateToInt(expensesXML.GetData()));
 
         expensesXML.FindElem("item");
         newExpense.setItem(expensesXML.GetData());
@@ -50,4 +50,13 @@ void ExpensesFile::loadExpensesToVector()
 
         expensesVector.push_back(newExpense);
     }
+}
+
+void ExpensesFile::sortExpensesByDate()
+{
+    sort(expensesVector.begin(), expensesVector.end( ), [ ](Expense& expense1, Expense& expense2)
+    {
+        return expense1.getDate() < expense2.getDate();
+    });
+    isExpensesVectorSortedByDate = true;
 }
